@@ -1,0 +1,49 @@
+﻿@page "/successpage"
+@inject NavigationManager NavManager
+<p><h1>watch shopping</h1></p>
+<p><h1>you jouned us successfully</h1></p>
+
+<style>
+    .btn {
+            background-color: blue;
+            color: black;
+            text-align: center;
+            font-size: 13px;
+         }
+body {
+        background-color: gray;
+    }
+    th, td {
+    padding: 15px;
+    text-align: left;
+}
+
+    img.watch3{
+        width : 600px;
+        height : auto;
+    }
+</style>
+<img class="watch3" src="/images/shopping.jpg">
+<p><p>Our watch has the most stylish brand watches in the world 
+    with the best prices available in the market</P></P>
+    <img class="watch3" src="/images/shop2.jpg">
+<p>From now on, all your purchases will be made with the phone number and address you gave us on the registration page. If you want to buy from us with another phone number and address,
+     you must have another name and another email from the first page. Sign up again</p>
+<button class = "btn" type="submit" @onclick="handels">go shoping</button>
+<button class = "btn" type="submit" @onclick="bet">crude product</button>
+
+@code
+{
+    private void handels() {
+        NavManager.NavigateTo("/shop"); 
+        }
+        public void bet(){
+        NavManager.NavigateTo("/crude");
+    }
+        @* if(clothes.Count()==0)
+            clothes.AddRange(await client.GetFromJsonAsync<Clothe[]>(rootAddress + "/api/clothe/getAllClotheInDb"));
+        else{
+            clothes.Clear();
+            clothes.AddRange(await client.GetFromJsonAsync<Clothe[]>(rootAddress + "/api/clothe/getAllClotheInDb"));
+        } *@
+}

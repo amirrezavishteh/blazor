@@ -1,0 +1,324 @@
+@page "/shop"
+@inject NavigationManager NavManager
+@using P8.Shared
+@using System.Net.Http
+<style>
+    table, th, td {
+border: 1px solid black;
+}
+    .btn {
+            background-color: gold;
+            color: black;
+            text-align: center;
+            font-size: 13px;
+         }
+body {
+        background-color: gray;
+    }
+    th, td {
+    padding: 15px;
+    text-align: left;
+}
+table {
+    width: 100%;
+}
+    img.watch3{
+        width : 200px;
+        height : auto;
+    }
+</style>
+<table>
+<h1>Shopping</h1>
+<tbody>
+            <td>Image</td>
+            <td>Number of your ordered clothes</td>
+            <td>Name</td>
+            <td>Price</td>
+            <td>Number</td>
+            <td>Discription</td>
+            <td>Id</td>
+            <td>Add</td>
+            <td>Delete</td>
+</tbody>
+
+@foreach(var item in clothes)
+{
+    @if(item.leftint>0)
+    {
+    <tbody>
+            <td><img class="watch3" src=@item.addressaImage/></td>
+
+            <td>@item.Number</td>
+            <td>@item.Name</td>
+            <td>price=@item.Price$</td>
+            <td>@item.leftint</td>
+            <td>@item.discription</td>
+            <td>@item.Id</td>
+
+            @if(item.leftint==item.Number)
+                {<td><button class="btn" @onclick= " () => AddToCart(item)" type="submit" disabled>Add</button></td>}
+            else
+                {<td><button class="btn" @onclick= " ()=> AddToCart(item) " type="submit" >Add</button></td>}
+
+            <td><button class="btn" @onclick= " ()=> deleteFromCart(item) " type="submit" >Delete</button></td>
+            
+        </tbody>
+    }
+
+}
+</table>
+<button class = "btn" @onclick="update" type="submit">Update products</button>
+<p></p>
+<button class = "btn" @onclick="ret" type="submit">Counting goods</button>
+
+@code
+{
+    protected async override Task OnInitializedAsync()
+    {
+        await BringAllItems();
+    }
+    public string rootAddress = "https://e99522221.herokuapp.com/";
+    List<Clothe> clothes=new List<Clothe>();
+    public async Task BringAllItems()
+    {
+        HttpClient client = new HttpClient();
+        clothes = await client.GetFromJsonAsync<List<Clothe>>(rootAddress + "api/clothe/getAllClotheInDb");
+        StateHasChanged();
+    }
+        int n=0;
+
+    public void AddToCart(Clothe cloth)
+    {
+        if(Cart.clothes.Contains(cloth))
+        {
+            
+            cloth.Number++;
+        }
+        else{
+            cloth.Number++;
+            Cart.clothes.Add(cloth);
+        }
+    }
+    public void deleteFromCart(Clothe cloth)
+    {
+        if(Cart.clothes.Contains(cloth))
+        {
+            cloth.Number--;
+        }
+        
+    }
+    int i=0;
+
+    public void ret()
+    {
+        if(i>0)
+            NavManager.NavigateTo("/Confirm"); 
+    }
+    
+    public async Task update(){
+        i++;
+        HttpClient ht=new HttpClient();
+        
+        foreach(var item in Cart.clothes)
+                { 
+                    item.leftint -= item.Number;
+                    await ht.PutAsJsonAsync("https://e99522221.herokuapp.com/api/Clothe/UpdateClotheInDB", item);
+                    @* if(item.leftint<=0)
+                        await ht.DeleteAsync($"http://localhost:5001/api/Clothe/removeClotheFromDb?Id={item.Id}"); *@
+                }
+        await BringAllItems();
+    }
+    
+}
+
+
+
+
+
+
+
+
+@* <style>
+    table, th, td {
+  border: 1px solid black;
+}
+    .btn {
+            background-color: gold;
+            color: black;
+            text-align: center;
+            font-size: 13px;
+         }
+body {
+        background-color: gray;
+    }
+    th, td {
+    padding: 15px;
+    text-align: left;
+}
+table {
+    width: 100%;
+}
+    img.watch3{
+        width : 200px;
+        height : auto;
+    }
+</style>
+<h1>Shopping</h1>
+<p>Our Rolex watchs are:</P>
+<table>
+
+
+    
+        <tbody>
+            <td><img class="watch3" src="/images/watch3.jpg">
+</td>
+            <td>@w2.Name</td>
+            <td>price=@w2.Price$</td>
+            <td>@w2.discription</td>
+            <td><button class = "btn" type="submit" @onclick="@handelw2">@shoping</button></td>
+        </tbody>
+        <tbody>
+            <td><img class="watch4" src="/images/watch42.jpg">
+</td>
+            <td>@w4.Name</td>
+            <td>price=@w4.Price$</td>
+            <td>@w4.discription</td>
+            <td><button class = "btn" type="submit" @onclick="@handelw4">@shoping4</button></td>
+
+        </tbody>
+        <tbody>
+            <td><img class="watch5" src="/images/watch5.jpg">
+</td>
+            <td>@w5.Name</td>
+            <td>price=@w5.Price$</td>
+            <td>@w5.discription</td>
+            <td><button class = "btn" type="submit" @onclick="@handelw5">@shoping5</button></td>
+
+        </tbody>
+        <tbody>
+            <td><img class="watch1" src="/images/watch1.jpg">
+</td>
+            <td>@w1.Name</td>
+            <td>price=@w1.Price$</td>
+            <td>@w1.discription</td>
+            <td><button class = "btn" type="submit" @onclick="@handelw1">@shoping1</button></td>
+
+        </tbody>
+    </table> 
+
+
+
+
+
+<h2>Your purchase is as follows</h2>
+<div style="overflow-x:auto;">
+    <table>
+        <thead>
+            <th>Name</th>
+            <th>price</th>
+        </thead>
+        
+            @foreach(var item in watchs)
+            {
+                <tbody>
+                    <td>@item.Name</td>
+                    <td>@item.Price</td>
+                </tbody>
+                
+            }
+    </table> 
+</div>
+<p></p>
+<div style="overflow-x:auto;">
+    <table>
+        <thead>
+            
+            <th>your Cost</th>
+            <th>@sum</th>
+
+        </thead>
+         *@
+           
+                @* <tbody>
+                    <td>@sum</td>
+
+                </tbody> *@
+                
+    @* </table> 
+</div>
+<p><button class = "btn" type="submit" @onclick="@handel">ُFinish</button></p>
+
+@code
+{
+    List <Clothe> watchs = new List <Clothe>();
+    int sum=0;
+    Clothe w1=new Clothe(){Name="Golden Rolex",Price=13000,discription="this is best and  made in Sweed."};
+    Clothe w2=new Clothe(){Name="BlackRolex",Price=20000,discription="this is beautiful."};
+    Clothe w5=new Clothe(){Name="Yazole",Price=15000,discription="made in Italy."};
+    Clothe w4=new Clothe(){Name="Yazole",Price=16000,discription="made in Sweed."};
+
+    public string shoping="shopping";
+    public string shoping1="shopping";
+    public string shoping4="shopping";
+    public string shoping5="shopping";
+    private void handel(){
+        NavManager.NavigateTo("/End"); 
+        
+    }
+    private void handelw2() {
+        if(shoping=="shopping")
+        {
+            shoping="shopped";
+            watchs.Add(w2);
+            sum+=w2.Price;
+        }
+
+        else{
+            shoping="shopping";
+            watchs.Remove(w2);
+            sum-=w2.Price;
+        }
+    }
+    private void handelw4() {
+        if(shoping4=="shopping")
+        {
+            shoping4="shopped";
+            watchs.Add(w4);
+            sum+=w4.Price;
+
+        }
+
+        else{
+            shoping4="shopping";
+            watchs.Remove(w4);
+            sum-=w4.Price;
+        }
+    }private void handelw5() {
+        if(shoping5=="shopping")
+        {
+            shoping5="shopped";
+            watchs.Add(w5);
+            sum+=w5.Price;
+        }
+
+        else{
+            shoping5="shopping";
+            watchs.Remove(w5);
+            sum-=w5.Price;
+        }
+    }
+    private void handelw1() {
+    if(shoping1=="shopping")
+            {
+                shoping1="shopped";
+                watchs.Add(w1);
+                sum+=w1.Price;
+            }
+
+            else{
+                shoping1="shopping";
+                watchs.Remove(w1);
+                sum-=w1.Price;
+            }        
+}
+} *@

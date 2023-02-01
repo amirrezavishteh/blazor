@@ -1,0 +1,51 @@
+@page "/"
+@inject NavigationManager NavManager
+
+<h1>Reza shopping</h1>
+<style>
+    .btn {
+            background-color: blue;
+            color: black;
+            text-align: center;
+            font-size: 13px;
+        }
+body {
+    
+        background-color: gray;
+    }
+    th, td {
+    padding: 15px;
+    text-align: left;
+}
+</style>
+
+
+<EditForm Model="@user" OnValidSubmit="@CreateUser">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <p>Enter your name please</P>
+    <p><InputText id="Name" @bind-Value="user.FullName" /></p>
+    <p>Gender</P>
+    <p><InputText id="Gender" @bind-Value="user.Gender" /></p>
+    
+    <p>Enter your Address please</P>
+    <p><InputText id="Address" @bind-Value="user.Address" /></p>
+    <p>Enter your phone number please</P>
+    <p><InputNumber id="Number" @bind-Value="user.PhoneNumber" /></P>
+
+    <button class = "btn" type="submit">Submit</button>
+</EditForm>
+
+@* <button class="btn btn-primary" @onclick="IncrementCount">Click me</button> *@
+
+@code {
+
+    User user=new User() ;
+    public void CreateUser()
+    {
+        HttpClient client = new HttpClient();
+        var url=@"https://e99522221.herokuapp.com/api/User/CreateUser";
+        client.PostAsJsonAsync<User>(url,user);
+        NavManager.NavigateTo("/successpage"); 
+    }
+}

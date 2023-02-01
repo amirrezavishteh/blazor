@@ -1,0 +1,98 @@
+﻿@page "/Ended"
+@using P8.Shared
+@inject HttpClient Http
+@inject NavigationManager NavManager
+<h1>confirm your information</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+<style>
+    table, th, td {
+border: 1px solid black;
+}
+    .btn {
+            background-color: gold;
+            color: black;
+            text-align: center;
+            font-size: 13px;
+         }
+body {
+        background-color: gray;
+    }
+    th, td {
+    padding: 15px;
+    text-align: left;
+}
+table {
+    width: 100%;
+}
+    img.watch3{
+        width : 200px;
+        height : auto;
+    }
+</style>
+<table>
+        <thead>
+            <th>Name</th>
+            <th>PhoneNumber</th>
+            
+            <th>Cost</th>
+        </thead>
+        
+            
+            
+                <tbody>
+
+                    <td>@users.FullName</td>
+                    <td>@users.PhoneNumber</td>
+                    <td>@sum</td>
+                </tbody>
+                
+            
+    </table> 
+
+<div>
+  <label for="cc-number">Enter your credit card number</label>
+  <input type="number" name="cc-number" id="cc-number" autocomplete="off">
+</div>    
+<button class = "btn" type="submit" @onclick="met">pay</button>
+<button class = "btn" type="submit" @onclick="bet">Back to store </button>
+@code {
+    private WeatherForecast[] forecasts;
+        
+    public string rootAddress = "https://e99522221.herokuapp.com/";
+
+    protected override async Task OnInitializedAsync()
+    {
+        ret();
+        sum1();
+    }
+    int sum=0;
+    public void sum1()
+    {
+        foreach(var item in Cart.clothes)
+        {
+            for(int i=0;i < item.Number;i++ )
+                sum+=item.Price;
+        }
+    }
+        User users=new User();
+
+    public async Task ret()
+    {
+        HttpClient client = new HttpClient();
+        users = await client.GetFromJsonAsync<User>(rootAddress + "api/User/getUserInDb");
+        StateHasChanged();
+    }
+    public void bet(){
+        
+        NavManager.NavigateTo("/shop");
+    }
+    public void met(){
+        HttpClient ht = new HttpClient();
+        foreach(Clothe item in Cart.clothes){
+            item.Number=0;
+            ht.PutAsJsonAsync("https://e99522221.herokuapp.com/api/Clothe/UpdateClotheaddInDB", item);
+        }       
+        NavManager.NavigateTo("/thanks");
+}
+}

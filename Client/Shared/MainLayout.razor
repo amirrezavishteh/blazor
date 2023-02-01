@@ -1,0 +1,23 @@
+@inherits LayoutComponentBase
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <div class="main">
+        <div class="top-row px-4">
+            <a href="/confirm" target="_blank" class="ml-md-auto">Cart</a>
+            @* <span class="oi oi" style="font-size:40px; margin-right: 20px; margin-top: 0px; float:left"></span></a> *@
+        <a herf="/confirm" style="text-decoration: none; width: 150px; color: black">
+        <span class="oi oi-cart" style="font-size:40px; margin-right: 20px; margin-top: 0px; float:left"></span>
+        <div>
+            <p style="margin-bottom: 0px; float: left;margin-top: 1px;"></p>
+        </div>
+        </a>
+        </div>
+        <div class="content px-4">
+            @Body
+        </div>
+    </div>
+</div>

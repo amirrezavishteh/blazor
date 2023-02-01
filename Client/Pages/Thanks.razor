@@ -1,0 +1,36 @@
+﻿@page "/thanks"
+@inject NavigationManager NavManager
+<p><h1>Thanks for your shop</h1></p>
+
+
+<style>
+    .btn {
+            background-color: blue;
+            color: black;
+            text-align: center;
+            font-size: 13px;
+         }
+body {
+        background-color: gray;
+    }
+    th, td {
+    padding: 15px;
+    text-align: left;
+}
+
+    img.watch3{
+        width : 600px;
+        height : auto;
+    }
+</style>
+<img class="watch3" src="/images/rolexshop.jpg">
+<p><p>Our watch has the most stylish brand watches in the world 
+    with the best prices available in the market</P></P>
+<p>Your watchs arrive within 3 days</p>
+
+<button class = "btn" type="submit" @onclick="handels">confirm</button>
+@code{
+    public void handels(){
+        NavManager.NavigateTo("/successpage");
+    }
+}

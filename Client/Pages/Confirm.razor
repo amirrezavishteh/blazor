@@ -1,0 +1,133 @@
+﻿@page "/Confirm"
+@using P8.Shared
+@using System.Net.Http
+@inject NavigationManager NavManager
+
+<h1>Reza cloths shopping</h1>
+<style>
+    table, th, td {
+border: 1px solid black;
+}
+    .btn {
+            background-color: gold;
+            color: black;
+            text-align: center;
+            font-size: 13px;
+         }
+body {
+        background-color: gray;
+    }
+    th, td {
+    padding: 15px;
+    text-align: left;
+}
+table {
+    width: 100%;
+}
+    img.watch3{
+        width : 200px;
+        height : auto;
+    }
+</style>
+
+<h2>Thanks for your shopping</h2>
+<h2>Your purchase is as follows</h2>
+<div style="overflow-x:auto;">
+    <table>
+        <thead>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Color</th>
+
+            <th>Number</th>
+            <th>price</th>
+        </thead>
+        
+            @foreach(var item in Cart.clothes)
+            {
+                @if(item.Number>0)
+                {
+                <tbody>
+
+                    <td><img class="watch3" src=@item.addressaImage/></td>
+                    <td>@item.Name</td>
+                    <td>@item.Color</td>
+                
+                    <td>@item.Number</td>
+                    <td>@item.Price</td>
+                </tbody>
+                }
+            }
+    </table> 
+</div>
+<p></p>
+
+<p></p>
+<div style="overflow-x:auto;">
+    <table>
+        <thead>
+            
+            <th>your Cost</th>
+            <th>@sum</th>
+
+        </thead>
+    </table>
+</div>
+
+    
+ @*    <p><input id="cart" @bind-Value="users.credit" /></p>
+    <button class = "btn" type="submit">Counting goods</button>
+<p></p> *@
+<button class = "btn" @onclick="ret" type="submit">Counting goods</button>
+<p></p>
+<img class="watch3" src="/images/shopping.jpg">
+
+@code
+{
+    int sum=0;
+    protected async override Task OnInitializedAsync()
+    {
+        sum1();
+    }
+    public void sum1()
+    {
+        foreach(var item in Cart.clothes)
+        {
+            for(int i=0;i < item.Number;i++ )
+                sum+=item.Price;
+        }
+    }
+    User users=new User();
+
+    public string rootAddress = "https://e99522221.herokuapp.com/";
+
+    public async Task ret()
+    {
+        
+            HttpClient client = new HttpClient();
+            users = await client.GetFromJsonAsync<User>(rootAddress + "api/User/getUserInDb");
+            users.count=sum;
+            StateHasChanged();
+            int i=0;
+            foreach(var item in Cart.clothes)
+            {
+                if(item.Number>0)
+                {
+                    i++;
+                }
+            }
+        if(i==0)
+        {
+            NavManager.NavigateTo("/shop"); 
+        }
+        else
+        {
+            NavManager.NavigateTo("/Ended"); 
+        }
+    }
+    
+}
+
+
+
+

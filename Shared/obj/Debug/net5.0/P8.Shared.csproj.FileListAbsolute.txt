@@ -1,0 +1,12 @@
+C:\git\Heroku\AP\P8\Shared\bin\Debug\net5.0\P8.Shared.deps.json
+C:\git\Heroku\AP\P8\Shared\bin\Debug\net5.0\P8.Shared.dll
+C:\git\Heroku\AP\P8\Shared\bin\Debug\net5.0\ref\P8.Shared.dll
+C:\git\Heroku\AP\P8\Shared\bin\Debug\net5.0\P8.Shared.pdb
+C:\git\Heroku\AP\P8\Shared\obj\Debug\net5.0\P8.Shared.csprojAssemblyReference.cache
+C:\git\Heroku\AP\P8\Shared\obj\Debug\net5.0\P8.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\git\Heroku\AP\P8\Shared\obj\Debug\net5.0\P8.Shared.AssemblyInfoInputs.cache
+C:\git\Heroku\AP\P8\Shared\obj\Debug\net5.0\P8.Shared.AssemblyInfo.cs
+C:\git\Heroku\AP\P8\Shared\obj\Debug\net5.0\P8.Shared.csproj.CoreCompileInputs.cache
+C:\git\Heroku\AP\P8\Shared\obj\Debug\net5.0\P8.Shared.dll
+C:\git\Heroku\AP\P8\Shared\obj\Debug\net5.0\ref\P8.Shared.dll
+C:\git\Heroku\AP\P8\Shared\obj\Debug\net5.0\P8.Shared.pdb

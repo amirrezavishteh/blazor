@@ -1,0 +1,71 @@
+
+@page "/crude"
+@using P8.Shared;
+@inject NavigationManager NavManager;
+<style>
+    table, th, td {
+border: 1px solid black;
+}
+    .btn {
+            background-color: gold;
+            color: black;
+            text-align: center;
+            font-size: 13px;
+         }
+body {
+        background-color: gray;
+    }
+    th, td {
+    padding: 15px;
+    text-align: left;
+}
+table {
+    width: 100%;
+}
+    img.watch3{
+        width : 200px;
+        height : auto;
+    }
+</style>
+<EditForm Model="@clothe" OnValidSubmit="@Add">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <p>Enter Product Name</P>
+    <p><InputText id="Name" @bind-Value="clothe.Name" /></p>
+    <p>color</P>
+    <p><InputText id="color" @bind-Value="clothe.Color" /></p>
+    <p>price</P>
+    <p><InputNumber id="price" @bind-Value="clothe.Price" /></p>
+    <p>Number</P>
+    <p><InputNumber id="leftint" @bind-Value="clothe.leftint" /></p>
+    <p>Discription</P>
+    <p><InputText id="color" @bind-Value="clothe.discription" /></p>
+    <p>AddressaImage</P>
+    <p><InputText id="color" @bind-Value="clothe.addressaImage" /></p>
+    <button class = "btn" type="submit">create</button>
+</EditForm>
+<input type="number" @bind="removeId"/>
+<p></p>
+<button class = "btn" @onclick="delete" type="submit">delete</button>
+<p></p>
+<button class = "btn" @onclick="get" type="submit">Get</button>
+
+@* <button class = "btn" @onclick="update" type="submit">delete</button> *@
+
+@code{
+    Clothe clothe=new Clothe();
+    int removeId;
+    public void Add(){
+        HttpClient ht=new HttpClient();
+        ht.PostAsJsonAsync("https://e99522221.herokuapp.com/api/Clothe/addNewClotheToDb",clothe);
+        StateHasChanged();
+    }
+    public void delete(){
+        HttpClient ht=new HttpClient();
+        ht.DeleteAsync($"https://e99522221.herokuapp.com/api/Clothe/removeClotheFromDb?Id={removeId}");
+        StateHasChanged();
+    }
+    public void get(){
+        NavManager.NavigateTo("/shop");
+    }
+}
